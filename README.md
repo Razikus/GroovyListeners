@@ -26,3 +26,10 @@ This listener will run when somebody will put block on the world. You have acces
 Save this example as example.groovy and put it on plugins/GroovyListenersPlugin/, then restart your server. That's all!
 
 
+# Donate
+
+Just buy me a coffee! It's very motivating :)
+
+https://www.buymeacoffee.com/razikus
+
+[<img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png">](https://www.buymeacoffee.com/razikus)
