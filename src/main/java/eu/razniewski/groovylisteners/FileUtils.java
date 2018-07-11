@@ -19,12 +19,12 @@ import java.util.stream.Stream;
  * @author edge
  */
 public class FileUtils {
-    public static boolean createDirectoryIfNotExists(String directory) {
-        return new File(directory).mkdirs();
+    public static boolean createDirectoryIfNotExists(File directory) {
+        return directory.mkdirs();
     }
-    public static List<String> getAllFilesFromDirectory(String directory) throws IOException {
+    public static List<String> getAllFilesFromDirectory(File directory) throws IOException {
         List<String> filePaths = new ArrayList<>();
-        try (Stream<Path> paths = Files.walk(Paths.get(directory))) {
+        try (Stream<Path> paths = Files.walk(directory.toPath())) {
             paths
             .filter(Files::isRegularFile)
             .forEach((path) -> {

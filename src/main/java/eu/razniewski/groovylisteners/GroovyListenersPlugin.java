@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.codehaus.groovy.control.CompilationFailedException;
 
@@ -25,10 +26,11 @@ public class GroovyListenersPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Loading...");
         GroovyInterface loader = new GroovyListenerLoader();
-        FileUtils.createDirectoryIfNotExists("GroovyListenersPlugin");
+        FileUtils.createDirectoryIfNotExists(getDataFolder());
         List<String> paths = new ArrayList<>();
         try {
-            paths = FileUtils.getAllFilesFromDirectory("GroovyListenersPlugin");
+            
+            paths = FileUtils.getAllFilesFromDirectory(getDataFolder());
         } catch (IOException ex) {
             Logger.getLogger(GroovyListenersPlugin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -37,6 +39,7 @@ public class GroovyListenersPlugin extends JavaPlugin {
             try {
                 Listener loaded = loader.compileAndGetInstance(path);
                 getServer().getPluginManager().registerEvents(loaded, this);
+                getLogger().info(loaded.getClass().getCanonicalName() + " loaded!");
             } catch (CompilationFailedException ex) {
                 getLogger().info("Compilation failed! " + ex.getMessage());
             } catch (IOException ex) {
@@ -58,5 +61,13 @@ public class GroovyListenersPlugin extends JavaPlugin {
         getLogger().info("Disabled");
     }
     
+    public static GroovyListenersPlugin getInstance() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("GroovyListenersPlugin");
+        if (plugin == null || !(plugin instanceof GroovyListenersPlugin)) {
+            throw new RuntimeException("GroovyListenersPlugin not found");
+        }
+ 
+        return ((GroovyListenersPlugin) plugin);
+    }
     
 }
